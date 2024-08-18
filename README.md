@@ -1,7 +1,7 @@
 Giới thiệu về Hadoop
 user
 hadoop là gì ?
-ChatGPT
+ 
 Hadoop là một nền tảng mã nguồn mở được phát triển bởi Apache dùng để xử lý và lưu trữ một lượng dữ liệu lớn theo mô hình phân tán. Nó có khả năng mở rộng, xử lý dữ liệu theo lô, và thường được sử dụng trong các môi trường Big Data.
 
 ### Các thành phần chính của Hadoop:
@@ -20,7 +20,7 @@ Hadoop thường được sử dụng trong các hệ thống xử lý dữ li�
 Vì tính linh hoạt và khả năng mở rộng cao, Hadoop được sử dụng phổ biến trong nhiều tổ chức và doanh nghiệp xử lý Big Data.
 user
 Viết file docker compose xây dựng Hadoop kết nối với HUE
-ChatGPT
+ 
 Để xây dựng một cụm Hadoop và kết nối với HUE sử dụng Docker Compose, bạn có thể sử dụng tệp cấu hình `docker-compose.yml` dưới đây. Cấu hình này sẽ bao gồm:
 
 1. **Hadoop (HDFS, YARN)**: Xử lý và lưu trữ dữ liệu lớn.
@@ -155,7 +155,7 @@ networks:
 Hue cho phép bạn quản lý file HDFS, chạy các câu lệnh Hive, Pig, hoặc tương tác với YARN dễ dàng thông qua giao diện web.
 user
 user login HUE là gì ?
-ChatGPT
+ 
 Trong môi trường mặc định khi cài đặt Hue, thông tin đăng nhập ban đầu thường là tài khoản **`hue`** với mật khẩu **`hue`** hoặc đôi khi không có mật khẩu (để trống). Tuy nhiên, điều này có thể thay đổi tùy thuộc vào cấu hình và cách triển khai cụ thể.
 
 Nếu bạn chưa thiết lập người dùng cụ thể và không có tài khoản đăng nhập, bạn có thể tạo một tài khoản quản trị bằng cách chạy lệnh sau trong container Hue:
@@ -175,7 +175,7 @@ Lệnh này sẽ yêu cầu bạn tạo tên người dùng, địa chỉ email,
 Nếu bạn sử dụng cấu hình mặc định và gặp khó khăn khi đăng nhập, hãy kiểm tra lại tệp cấu hình hoặc tài liệu chính thức của Hue.
 user
 bỏ data vào hadoop như thế nào ?
-ChatGPT
+ 
 Để đưa dữ liệu vào Hadoop (HDFS), bạn có thể thực hiện các bước sau bằng cách sử dụng lệnh `hdfs dfs` trong terminal. Dưới đây là các bước cơ bản:
 
 ### 1. **Xác minh HDFS đang chạy**
@@ -241,7 +241,7 @@ docker exec -it namenode bash
 ```
 user
 tạo mount trong docker compose để upload dữ liệu lên mà ko cần phải docker exec -it namenode bash
-ChatGPT
+ 
 Để tránh việc phải vào container bằng lệnh `docker exec -it namenode bash`, bạn có thể sử dụng tính năng mount volume trong Docker Compose. Bằng cách này, bạn có thể map một thư mục trên máy cục bộ vào một thư mục trong container. Dữ liệu mà bạn muốn upload lên Hadoop có thể được lưu trong thư mục trên máy cục bộ và tự động xuất hiện trong container.
 
 Dưới đây là cách chỉnh sửa tệp `docker-compose.yml` để mount một thư mục từ máy cục bộ vào container Hadoop:
@@ -322,7 +322,7 @@ docker-compose exec namenode hdfs dfs -put /input/sample.txt /user/tendangnhap/m
 Với cách này, việc upload dữ liệu lên Hadoop sẽ trở nên dễ dàng và tiện lợi hơn rất nhiều.
 user
 nếu muốn đẩy dữ liệu của mysql vào thì làm như thế nào ?
-ChatGPT
+ 
 Để đẩy dữ liệu từ MySQL vào Hadoop (HDFS), bạn có thể sử dụng công cụ **Apache Sqoop**, một công cụ phổ biến để nhập và xuất dữ liệu giữa các hệ thống cơ sở dữ liệu quan hệ (RDBMS) như MySQL và HDFS.
 
 Dưới đây là các bước cụ thể:
@@ -401,7 +401,7 @@ Sau khi dữ liệu được nhập vào HDFS, bạn có thể sử dụng Hue �
 Với các bước trên, bạn có thể dễ dàng chuyển dữ liệu từ MySQL vào HDFS và tận dụng Hadoop để xử lý dữ liệu lớn.
 user
 còn SQL server thì phải làm thế nào
-ChatGPT
+ 
 Để đẩy dữ liệu từ SQL Server vào Hadoop (HDFS), bạn có thể sử dụng Apache Sqoop tương tự như khi làm với MySQL. Tuy nhiên, khi làm việc với SQL Server, có một số điểm khác biệt nhỏ cần lưu ý, chủ yếu liên quan đến việc kết nối JDBC.
 
 ### Các bước thực hiện:
@@ -484,7 +484,7 @@ Sau khi dữ liệu được nhập vào HDFS, bạn có thể sử dụng Hue �
 Với các bước này, bạn có thể dễ dàng import dữ liệu từ SQL Server vào HDFS và sử dụng Hadoop để xử lý dữ liệu lớn.
 user
 lấy dữ liệu từ các api thì làm cách nào ?
-ChatGPT
+ 
 Để lấy dữ liệu từ các API và đưa vào HDFS, bạn có thể thực hiện qua các bước sau:
 
 ### 1. **Sử dụng Python hoặc một công cụ tương tự để gọi API**
@@ -556,7 +556,7 @@ hdfs dfs -ls /user/tendangnhap/api_data.json
 Cách này giúp bạn linh hoạt lấy dữ liệu từ bất kỳ API nào và đưa vào hệ thống Hadoop để xử lý và phân tích.
 user
 viết bằng javascript được không ?
-ChatGPT
+ 
 Có thể sử dụng JavaScript (Node.js) để lấy dữ liệu từ API và lưu vào HDFS. Bạn có thể sử dụng các thư viện như `axios` để gọi API và `webhdfs` để tương tác với HDFS.
 
 ### Dưới đây là cách làm:
