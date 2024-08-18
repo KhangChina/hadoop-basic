@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    hostname: namenode
+    ports:
+      - "9870:9870" # HDFS Web UI
+      - "9000:9000"
+    volumes:
+      - namenode:/hadoop/dfs/name
+      - ./data:/input # Mount thư mục local ./data vào /input trong container
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - CORE_CONF_hadoop_http_staticuser_user=root
+      - HDFS_CONF_dfs_namenode_name_dir=/hadoop/dfs/name
+      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_permissions_enabled=false
+    networks:
+      - hadoop
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    hostname: datanode
+    ports:
+      - "9864:9864" # DataNode Web UI
+    volumes:
+      - datanode:/hadoop/dfs/data
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - CORE_CONF_hadoop_http_staticuser_user=root
+      - HDFS_CONF_dfs_datanode_data_dir=/hadoop/dfs/data
+      - HDFS_CONF_dfs_replication=1
+      - HDFS_CONF_dfs_permissions_enabled=false
+    networks:
+      - hadoop
+    depends_on:
+      - namenode
+
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+    container_name: resourcemanager
+    hostname: resourcemanager
+    ports:
+      - "8088:8088" # YARN Web UI
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
+      - YARN_CONF_yarn_scheduler_minimum_allocation_mb=128
+      - YARN_CONF_yarn_scheduler_maximum_allocation_mb=8192
+      - YARN_CONF_yarn_scheduler_minimum_allocation_vcores=1
+      - YARN_CONF_yarn_scheduler_maximum_allocation_vcores=4
+    networks:
+      - hadoop
+    depends_on:
+      - namenode
+
+  nodemanager:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+    container_name: nodemanager
+    hostname: nodemanager
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    networks:
+      - hadoop
+    depends_on:
+      - resourcemanager
+
+  historyserver:
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
+    container_name: historyserver
+    hostname: historyserver
+    ports:
+      - "8188:8188" # MapReduce JobHistory Web UI
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    networks:
+      - hadoop
+    depends_on:
+      - namenode
+      - resourcemanager
+
+  hue:
+    image: gethue/hue:latest
+    container_name: hue
+    hostname: hue
+    ports:
+      - "8888:8888" # Hue Web UI
+    environment:
+      - HUE_CONF_hue_safetybelt=false
+      - HUE_CONF_hadoop_hdfs_url=hdfs://namenode:9000
+      - HUE_CONF_hadoop_yarn_url=http://resourcemanager:8088
+    networks:
+      - hadoop
+    depends_on:
+      - namenode
+      - resourcemanager
+
+volumes:
+  namenode:
+  datanode:
+
+networks:
+  hadoop:
+    driver: bridge
